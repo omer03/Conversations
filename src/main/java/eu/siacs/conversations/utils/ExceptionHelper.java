@@ -73,7 +73,7 @@ public class ExceptionHelper {
                 }
                 report.append('\n');
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.d(Config.LOGTAG, e.getMessage());
                 return false;
             }
             String line;
