@@ -6,13 +6,22 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.2'
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0"
     }
 }
 
 apply plugin: 'com.android.application'
+apply plugin: "org.sonarqube"
+
+sonarqube {
+    androidVariant "conversationsFreeSystemRelease"
+}
 
 repositories {
     google()
@@ -81,6 +90,7 @@ dependencies {
     implementation 'com.google.guava:guava:27.1-android'
     quicksyImplementation 'io.michaelrocks:libphonenumber-android:8.11.1'
     implementation fileTree(include: ['libwebrtc-m81.aar'], dir: 'libs')
+    implementation 'org.webrtc:google-webrtc:1.0.+'
 }
 
 ext {
