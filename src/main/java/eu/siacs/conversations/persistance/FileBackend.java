@@ -76,6 +76,7 @@ public class FileBackend {
     private static final SimpleDateFormat IMAGE_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
 
     private static final String FILE_PROVIDER = ".files";
+    private static final String VIDEO = "video/";
     private static final float IGNORE_PADDING = 0.15f;
     private XmppConnectionService mXmppConnectionService;
 
@@ -122,7 +123,7 @@ public class FileBackend {
                 continue;
             }
             String mime = attachment.getMime();
-            if (mime != null && mime.startsWith("video/") && compressVideo) {
+            if (mime != null && mime.startsWith(VIDEO) && compressVideo) {
                 try {
                     Dimensions dimensions = FileBackend.getVideoDimensions(context, attachment.getUri());
                     if (dimensions.getMin() > 720) {
@@ -434,7 +435,7 @@ public class FileBackend {
         if ("application/pdf".equals(mime) && Compatibility.runsTwentyOne()) {
             bitmap = cropCenterSquarePdf(attachment.getUri(), size);
             drawOverlay(bitmap, paintOverlayBlackPdf(bitmap) ? R.drawable.open_pdf_black : R.drawable.open_pdf_white, 0.75f);
-        } else if (mime != null && mime.startsWith("video/")) {
+        } else if (mime != null && mime.startsWith(VIDEO)) {
             bitmap = cropCenterSquareVideo(attachment.getUri(), size);
             drawOverlay(bitmap, paintOverlayBlack(bitmap) ? R.drawable.play_video_black : R.drawable.play_video_white, 0.75f);
         } else {
@@ -527,7 +528,7 @@ public class FileBackend {
         } else {
             if (mime != null && mime.startsWith("image/")) {
                 file = new DownloadableFile(getConversationsDirectory("Images") + path);
-            } else if (mime != null && mime.startsWith("video/")) {
+            } else if (mime != null && mime.startsWith(VIDEO)) {
                 file = new DownloadableFile(getConversationsDirectory("Videos") + path);
             } else {
                 file = new DownloadableFile(getConversationsDirectory("Files") + path);
@@ -826,7 +827,7 @@ public class FileBackend {
                 final String mime = file.getMimeType();
                 if ("application/pdf".equals(mime) && Compatibility.runsTwentyOne()) {
                     thumbnail = getPdfDocumentPreview(file, size);
-                } else if (mime.startsWith("video/")) {
+                } else if (mime.startsWith(VIDEO)) {
                     thumbnail = getVideoPreview(file, size);
                 } else {
                     Bitmap fullsize = getFullSizeImagePreview(file, size);
@@ -1274,7 +1275,7 @@ public class FileBackend {
         final String mime = file.getMimeType();
         final boolean privateMessage = message.isPrivateMessage();
         final boolean image = message.getType() == Message.TYPE_IMAGE || (mime != null && mime.startsWith("image/"));
-        final boolean video = mime != null && mime.startsWith("video/");
+        final boolean video = mime != null && mime.startsWith(VIDEO);
         final boolean audio = mime != null && mime.startsWith("audio/");
         final boolean pdf = "application/pdf".equals(mime);
         final StringBuilder body = new StringBuilder();

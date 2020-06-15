@@ -232,7 +232,7 @@ public class MemorizingTrustManager {
         }
         synchronized (d) {
             d.state = choice;
-            d.notify();
+            d.notifyAll();
         }
     }
 

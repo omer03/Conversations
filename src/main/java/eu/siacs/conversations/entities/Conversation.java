@@ -274,11 +274,9 @@ public class Conversation extends AbstractEntity implements Blockable, Comparabl
     }
 
     public boolean setOutgoingChatState(ChatState state) {
-        if (mode == MODE_SINGLE && !getContact().isSelf() || (isPrivateAndNonAnonymous() && getNextCounterpart() == null)) {
-            if (this.mOutgoingChatState != state) {
+        if (mode == MODE_SINGLE && !getContact().isSelf() || (isPrivateAndNonAnonymous() && getNextCounterpart() == null) && this.mOutgoingChatState != state) {
                 this.mOutgoingChatState = state;
                 return true;
-            }
         }
         return false;
     }

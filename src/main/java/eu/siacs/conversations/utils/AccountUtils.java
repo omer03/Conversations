@@ -60,8 +60,8 @@ public class AccountUtils {
 
     public static Account getFirst(XmppConnectionService service) {
         final List<Account> accounts = service.getAccounts();
-        for(Account account : accounts) {
-            return account;
+        if (!accounts.isEmpty()) {
+            return accounts.get(0);
         }
         return null;
     }
